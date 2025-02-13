@@ -26,7 +26,10 @@ const Login = () => {
       const user = userCredential.user;
 
       dispatch(
-        login({ uid: user?.uid, email: user?.email!, password: password })
+        login({
+          uid: user?.uid,
+          email: user?.email!,
+        })
       );
       console.log("회원가입 성공", user);
     } catch (error) {
@@ -44,9 +47,7 @@ const Login = () => {
       );
       const user = userCredential.user;
 
-      dispatch(
-        login({ uid: user?.uid, email: user?.email!, password: password })
-      );
+      dispatch(login({ uid: user?.uid, email: user?.email! }));
       console.log("로그인 성공", user);
     } catch (error) {
       console.log("로그인 오류", error);
@@ -59,7 +60,7 @@ const Login = () => {
       const userCredential = await signInWithPopup(firebaseAuth, provider);
       const user = userCredential.user;
 
-      dispatch(login({ uid: user?.uid, email: user?.email!, password: "" }));
+      dispatch(login({ uid: user?.uid, email: user?.email! }));
       console.log("구글 로그인 성공", user);
     } catch (error) {
       console.log("구글 로그인 실패", error);
