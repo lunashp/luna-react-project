@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks/storeHooks";
 import { login, logout } from "./authSlice";
-import { firebaseAuth } from "../../config/FirebaseConfig";
+import { firebaseAuth, provider } from "../../config/FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "@firebase/auth";
 
 const Login = () => {
@@ -13,12 +14,6 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // const handleLogin = () => {
-  //   dispatch(
-  //     login({ uid: "123", email: "user@example.com", password: "1234" })
-  //   );
-  // };
 
   // 회원가입 함수
   const handleSignUp = async () => {
@@ -58,14 +53,20 @@ const Login = () => {
     }
   };
 
-  console.log("user", user);
-  console.log("typeof login", typeof login);
-  console.log();
+  // 구글 로그인 함수
+  const handleGoogleLogin = async () => {
+    try {
+      const userCredential = await signInWithPopup(firebaseAuth, provider);
+      const user = userCredential.user;
 
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  // };
+      dispatch(login({ uid: user?.uid, email: user?.email!, password: "" }));
+      console.log("구글 로그인 성공", user);
+    } catch (error) {
+      console.log("구글 로그인 실패", error);
+    }
+  };
 
+  // 로그아웃 함수
   const handleLogout = async () => {
     try {
       await firebaseAuth.signOut();
@@ -77,7 +78,7 @@ const Login = () => {
     }
   };
   return (
-    <div>
+    <>
       {user ? (
         <div>
           <p>로그인됨: {user.email}</p>
@@ -100,10 +101,10 @@ const Login = () => {
           />
           <button onClick={handleSignUp}>회원가입</button>
           <button onClick={handleLogin}>로그인</button>
-          {/* <button onClick={handleGoogleLogin}>Google 로그인</button> */}
+          <button onClick={handleGoogleLogin}>Google 로그인</button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
