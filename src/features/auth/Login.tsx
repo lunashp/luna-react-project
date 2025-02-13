@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "@firebase/auth";
+import UserProfile from "../user/UserProfile";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -82,7 +83,7 @@ const Login = () => {
     <>
       {user ? (
         <div>
-          <p>로그인됨: {user.email}</p>
+          <UserProfile />
           <button onClick={handleLogout}>로그아웃</button>
         </div>
       ) : (
