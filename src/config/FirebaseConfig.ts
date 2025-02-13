@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { getAuth } from "@firebase/auth";
+import { getAuth, GoogleAuthProvider } from "@firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,5 +17,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// firebase app 관련 코드
 export const firebaseAuth = getAuth(app);
+
+// 구글 로그인 관련 코드
+export const provider = new GoogleAuthProvider();
+
+// 데이터베이스 관련 코드
 export const db = getFirestore(app);
