@@ -9,7 +9,7 @@ const UserProfile = () => {
   // redux 사용 시
   // const user = useAppSelector((state) => state.auth.user);
   const [displayName, setNewDisplayName] = useState("");
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [photo, setPhoto] = useState<string | null>(null);
 
   const user = firebaseAuth.currentUser;
 
@@ -46,11 +46,21 @@ const UserProfile = () => {
     }
   };
 
+  // // 파일 선택 시 호출 (브라우저 내에서 관리)
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     const file = e.target.files[0];
+  //     setPhoto(file);
+  //   }
+  // };
+
   // 파일 선택 시 호출 (브라우저 내에서 관리)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setPhoto(file);
+      const localUrl = URL.createObjectURL(file);
+      console.log("파일 선택됨:", localUrl);
+      setPhoto(localUrl);
     }
   };
 
@@ -72,10 +82,19 @@ const UserProfile = () => {
         <button onClick={handleLogout}>로그아웃</button>
       </p>
       <p>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            console.log("파일 선택 이벤트 발생");
+            handleFileChange(e);
+          }}
+        />
       </p>
-      {photo && (
-        <img src={URL.createObjectURL(photo)} alt="Profile" width={100} />
+      {photo ? (
+        <img src={photo} alt="Profile Preview" width={100} />
+      ) : (
+        <p>이미지가 선택되지 않았습니다.</p>
       )}
     </div>
   );
