@@ -7,13 +7,16 @@ import { fetchUserFromFirebase } from "../auth/authService";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+  // redux 사용 시
+  // const user = useAppSelector((state) => state.auth.user);
   const [displayName, setNewDisplayName] = useState("");
 
-  // 앱 실행 시 로그인한 사용자 정보 가져오기
-  useEffect(() => {
-    fetchUserFromFirebase(dispatch);
-  }, [dispatch]);
+  const user = firebaseAuth.currentUser;
+
+  // 앱 실행 시 로그인한 사용자 정보 가져오기 (redux 사용 시)
+  // useEffect(() => {
+  //   fetchUserFromFirebase(dispatch);
+  // }, [dispatch]);
 
   // 로그아웃 함수
   const handleLogout = async () => {
@@ -28,6 +31,7 @@ const UserProfile = () => {
   };
 
   // 프로필 업데이트 함수
+  // todo: 업데이트 이후 로직 고민 필요
   const handleUpdateProfile = async () => {
     if (!user) return;
 
@@ -35,7 +39,6 @@ const UserProfile = () => {
       await updateProfile(firebaseAuth.currentUser!, {
         displayName: displayName,
       });
-
       dispatch(updateProfileAction({ displayName: displayName }));
       console.log("프로필 업데이트 성공", user);
     } catch (error) {
@@ -48,14 +51,21 @@ const UserProfile = () => {
       <h1>Profile</h1>
       <p>Email: {user?.email}</p>
       <p>Nickname: {user?.displayName}</p>
-      <input
-        type="text"
-        placeholder="닉네임 입력"
-        value={displayName}
-        onChange={(e) => setNewDisplayName(e.target.value)}
-      />
-      <button onClick={handleUpdateProfile}>이름 변경</button>
-      <button onClick={handleLogout}>로그아웃</button>
+      <p>
+        <input
+          type="text"
+          placeholder="닉네임 입력"
+          value={displayName}
+          onChange={(e) => setNewDisplayName(e.target.value)}
+        />
+        <button onClick={handleUpdateProfile}>이름 변경</button>
+      </p>
+      <p>
+        <button onClick={handleLogout}>로그아웃</button>
+      </p>
+      <p>
+        <button onClick={() => console.log(user)}>프로필 사진 업로드</button>
+      </p>
     </div>
   );
 };
