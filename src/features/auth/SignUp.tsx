@@ -3,13 +3,14 @@ import { useAppDispatch } from "../../app/hooks/storeHooks";
 import { login } from "./authSlice";
 import { firebaseAuth } from "../../config/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // 회원가입 함수
   const handleSignUp = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -19,8 +20,14 @@ const SignUp = () => {
       );
       const user = userCredential.user;
 
-      dispatch(login({ uid: user?.uid, email: user?.email! }));
+      dispatch(
+        login({
+          uid: user?.uid,
+          email: user?.email!,
+        })
+      );
       console.log("회원가입 성공", user);
+      navigate(`/login`);
     } catch (error) {
       console.log("회원가입 오류", error);
     }

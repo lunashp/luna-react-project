@@ -56,7 +56,7 @@ const Login = () => {
         </div>
       ) : (
         <div>
-          <h2>로그인 / 회원가입</h2>
+          <h2>로그인</h2>
           <input
             type="email"
             placeholder="이메일 입력"
