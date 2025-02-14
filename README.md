@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# 🛠 React + Redux + Firebase 인증 프로젝트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📖 프로젝트 소개
 
-## Available Scripts
+이 프로젝트는 **React + Redux Toolkit**을 사용하여 Firebase 인증 기능을 구현한 애플리케이션입니다.  
+이메일/비밀번호 로그인, 회원가입 및 Google 로그인 기능이 포함되어 있으며, Redux를 통해 전역 상태를 관리합니다.
 
-In the project directory, you can run:
+## 🚀 주요 기능
 
-### `yarn start`
+✅ **이메일/비밀번호 회원가입 및 로그인**  
+✅ **Google 로그인 지원**  
+✅ **Redux Toolkit을 활용한 상태 관리**  
+✅ **react-router-dom을 활용한 페이지 이동**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📂 폴더 구조
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```plaintext
+(추가예정)
+```
 
-### `yarn test`
+## 💁🏻‍♀️ 프로젝트 실행 가이드
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **Node.js 설치 (없다면 필수!)**
 
-### `yarn build`
+먼저, Node.js가 설치되어 있는지 확인하세요
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### **Node.js 버전 확인**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+node -v
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### **Yarn 설치 (없다면 필수!)**
 
-### `yarn eject`
+이 프로젝트는 yarn을 사용합니다
+설치되지 않았다면 아래 명령어로 설치하세요
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```sh
+npm install -g yarn
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### **Yarn 버전 확인**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```sh
+yarn -v
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+버전이 표시되면 정상적으로 설치된 것입니다.
 
-## Learn More
+### **프로젝트 클론 & 패키지 설치**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+프로젝트 다운로드
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+git clone https://github.com/lunashp/luna-react-project.git
+cd your-project
+```
 
-### Code Splitting
+패키지 설치
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```sh
+yarn install
+```
 
-### Analyzing the Bundle Size
+### **Firebase 설정**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Firebase를 사용하려면, `.env` 파일에 인증 관련 내용을 추가하세요
 
-### Making a Progressive Web App
+- `firebaseConfig.ts` 파일을 참고하여 작성
+- firebaseConfig는 Firebase 콘솔에서 프로젝트를 생성한 후, 설정 정보를 가져와 입력하세요.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+REACT_APP_FIREBASE_KEY = ""
+REACT_APP_FIREBASE_AUTHDOMAIN = ""
+REACT_APP_FIREBASE_PROJECTID = ""
+REACT_APP_FIREBASE_STORAGEBUCKET = ""
+REACT_APP_FIREBASE_MESSAGINGSENDERID = ""
+REACT_APP_FIREBASE_APPID = ""
+```
 
-### Advanced Configuration
+### **개발 서버 실행**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```sh
+yarn start
+```
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+실행 후 http://localhost:3000 에서 확인할 수 있습니다.
