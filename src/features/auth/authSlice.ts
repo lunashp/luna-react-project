@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
-  user: { uid?: string; email?: string; displayName?: string } | null;
+  user: {
+    uid?: string;
+    email?: string;
+    displayName?: string;
+    photoURL?: string;
+  } | null;
   isAuthenticated: boolean;
 }
 
@@ -36,7 +41,10 @@ const authSlice = createSlice({
     },
     updateProfileAction: (
       state,
-      action: PayloadAction<{ displayName: string }>
+      action: PayloadAction<{
+        displayName?: string;
+        photoURL?: string;
+      }>
     ) => {
       if (state.user) {
         state.user.displayName = action.payload.displayName;

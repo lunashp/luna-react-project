@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks/storeHooks";
+import React, { useState } from "react";
+import { useAppDispatch } from "../../app/hooks/storeHooks";
 import { firebaseAuth } from "../../config/FirebaseConfig";
 import { logout, updateProfileAction } from "../auth/authSlice";
 import { updateProfile } from "@firebase/auth";
-import { fetchUserFromFirebase } from "../auth/authService";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
   // redux 사용 시
   // const user = useAppSelector((state) => state.auth.user);
   const [displayName, setNewDisplayName] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const user = firebaseAuth.currentUser;
 
@@ -46,6 +46,14 @@ const UserProfile = () => {
     }
   };
 
+  // 파일 선택 시 호출 (브라우저 내에서 관리)
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setPhoto(file);
+    }
+  };
+
   return (
     <div>
       <h1>Profile</h1>
@@ -64,8 +72,11 @@ const UserProfile = () => {
         <button onClick={handleLogout}>로그아웃</button>
       </p>
       <p>
-        <button onClick={() => console.log(user)}>프로필 사진 업로드</button>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
       </p>
+      {photo && (
+        <img src={URL.createObjectURL(photo)} alt="Profile" width={100} />
+      )}
     </div>
   );
 };
