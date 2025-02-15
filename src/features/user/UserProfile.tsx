@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../../app/hooks/storeHooks";
 import { firebaseAuth } from "../../config/FirebaseConfig";
 import { logout, updateProfileAction } from "../auth/authSlice";
@@ -32,6 +32,7 @@ const UserProfile = () => {
 
   // 프로필 업데이트 함수
   // todo: 업데이트 이후 로직 고민 필요
+  // todo: alert 등으로 사용자에게 알림 필요
   const handleUpdateProfile = async () => {
     if (!user) return;
 
@@ -46,23 +47,45 @@ const UserProfile = () => {
     }
   };
 
-  // // 파일 선택 시 호출 (브라우저 내에서 관리)
+  // 파일 선택 시 호출 (브라우저 내에서 관리)
   // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files && e.target.files[0]) {
   //     const file = e.target.files[0];
-  //     setPhoto(file);
+  //     const localUrl = URL.createObjectURL(file);
+  //     console.log("파일 선택됨:", localUrl);
+  //     setPhoto(localUrl);
   //   }
   // };
 
-  // 파일 선택 시 호출 (브라우저 내에서 관리)
+  // local storage에 이미지 저장
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const localUrl = URL.createObjectURL(file);
-      console.log("파일 선택됨:", localUrl);
-      setPhoto(localUrl);
+
+      // 파일 크기 제한 (5MB 이하)
+      if (file.size > 500 * 1024 * 1024) {
+        alert("파일 크기가 너무 큽니다. 5MB 이하의 이미지를 선택해주세요");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        localStorage.setItem("profileImage", base64String);
+        setPhoto(base64String);
+      };
+
+      reader.readAsDataURL(file);
     }
   };
+
+  // 페이지 로드 시 LocalStorage에서 이미지 불러오기
+  useEffect(() => {
+    const storedImage = localStorage.getItem("profileImage");
+    if (storedImage) {
+      setPhoto(storedImage);
+    }
+  }, []);
 
   return (
     <div>
