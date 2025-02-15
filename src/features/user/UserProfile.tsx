@@ -63,8 +63,15 @@ const UserProfile = () => {
       const file = e.target.files[0];
 
       // 파일 크기 제한 (5MB 이하)
-      if (file.size > 500 * 1024 * 1024) {
+      if (file.size > 5 * 1024 * 1024) {
         alert("파일 크기가 너무 큽니다. 5MB 이하의 이미지를 선택해주세요");
+        return;
+      }
+
+      // 파일 확장자 검증 (JPG, PNG, GIF만 허용)
+      const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!allowedTypes.includes(file.type)) {
+        alert("지원되지 않는 이미지 형식입니다! (JPG, PNG, GIF만 가능)");
         return;
       }
 
@@ -86,6 +93,12 @@ const UserProfile = () => {
       setPhoto(storedImage);
     }
   }, []);
+
+  // 이미지 삭제 함수
+  const handleRemovePhoto = () => {
+    localStorage.removeItem("profileImage");
+    setPhoto(null);
+  };
 
   return (
     <div>
@@ -119,6 +132,7 @@ const UserProfile = () => {
       ) : (
         <p>이미지가 선택되지 않았습니다.</p>
       )}
+      {photo && <button onClick={handleRemovePhoto}>사진 삭제</button>}
     </div>
   );
 };
