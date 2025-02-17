@@ -1,14 +1,14 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppSelector } from "./stores/hooks/storeHooks";
-import Auth from "./pages/auth/Auth";
+// import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import UserProfile from "./pages/user/UserProfile";
 import PostList from "./pages/post/PostList";
-import PostCreate from "./pages/post/PostCeate";
 import PostDetail from "./pages/post/PostDetail";
 import PostUpdate from "./pages/post/PostUpdate";
+import PostCreate from "./pages/post/PostCreate";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -20,20 +20,36 @@ function App() {
 
   console.log("user", user);
 
+  // todo: user 가 없을 때 login 으로 리다이렉트 하는 다른 방법 생각 필요 > 라우팅 로직이 너무 지저분함
   return (
     <Routes>
-      <Route path="" element={<Navigate to={"/main"} />} />
-      <Route path="/main" element={<Auth />} />
+      {/* <Route path="" element={<Navigate to={"/main"} />} /> */}
+      <Route
+        path=""
+        element={user ? <Navigate to="/post" /> : <Navigate to="/login" />}
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/join" element={<SignUp />} />
       <Route
         path="/profile/:uid"
         element={user ? <UserProfile /> : <Navigate to="/login" />}
       />
-      <Route path="/post" element={<PostList />} />
-      <Route path="/post/create" element={<PostCreate />} />
-      <Route path="/post/:id" element={<PostDetail />} />
-      <Route path="/post/:id/update" element={<PostUpdate />} />
+      <Route
+        path="/post"
+        element={user ? <PostList /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/post/create"
+        element={user ? <PostCreate /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/post/:id"
+        element={user ? <PostDetail /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/post/:id/update"
+        element={user ? <PostUpdate /> : <Navigate to="/login" />}
+      />
     </Routes>
   );
 }

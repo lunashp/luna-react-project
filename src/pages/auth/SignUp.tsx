@@ -27,7 +27,7 @@ const SignUp = () => {
         })
       );
       console.log("회원가입 성공", user);
-      navigate(`/login`);
+      navigate(`/post`);
     } catch (error) {
       console.log("회원가입 오류", error);
     }

@@ -4,6 +4,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { store } from "./stores/store";
+import Header from "./components/Header";
 // import { firebaseAuth } from "./config/FirebaseConfig";
 
 const root = ReactDOM.createRoot(
@@ -12,6 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <Router>
+      <Header />
       <App />
     </Router>
   </Provider>
