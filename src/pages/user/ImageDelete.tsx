@@ -1,5 +1,5 @@
 import React from "react";
-import useImageUpload from "../app/hooks/useImageUpload";
+import useImageUpload from "../../hooks/useImageUpload";
 
 interface ImageUploaderProps {
   storageKey?: string; // 기본값 "profileImage"

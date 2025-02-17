@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks/storeHooks";
 import { firebaseAuth } from "../../config/FirebaseConfig";
-import { logout, updateProfileAction } from "../auth/authSlice";
 import { updateProfile } from "@firebase/auth";
+import { useAppDispatch } from "../../stores/hooks/storeHooks";
+import { logout, updateProfileAction } from "../../features/auth/authSlice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();

@@ -1,10 +1,10 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useAppSelector } from "./app/hooks/storeHooks";
-import Auth from "./features/auth/Auth";
-import UserProfile from "./features/user/UserProfile";
-import Login from "./features/auth/Login";
-import SignUp from "./features/auth/SignUp";
+import { useAppSelector } from "./stores/hooks/storeHooks";
+import Auth from "./pages/auth/Auth";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
+import UserProfile from "./pages/user/UserProfile";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);

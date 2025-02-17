@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks/storeHooks";
-import { login } from "./authSlice";
 import { firebaseAuth, provider } from "../../config/FirebaseConfig";
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
+import { login } from "../../features/auth/authSlice";
 
 const Login = () => {
   const dispatch = useAppDispatch();
