@@ -5,6 +5,8 @@ import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import UserProfile from "./pages/user/UserProfile";
+import PostList from "./pages/post/PostList";
+import PostCreate from "./pages/post/PostCeate";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -26,6 +28,8 @@ function App() {
         path="/profile/:uid"
         element={user ? <UserProfile /> : <Navigate to="/login" />}
       />
+      <Route path="/post" element={<PostList />} />
+      <Route path="/post/create" element={<PostCreate />} />
       {/* 다른 경로들 추가 예정 */}
     </Routes>
   );

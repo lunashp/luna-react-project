@@ -47,13 +47,23 @@ const Login = () => {
     navigate(`/profile/${user?.uid}`);
   };
 
+  const handleGoToPost = () => {
+    navigate(`/post`);
+  };
+
   return (
     <>
       {user ? (
-        <div>
-          프로필로 이동하기
-          <button onClick={handleGoToProfile}>프로필로 이동</button>
-        </div>
+        <>
+          <div>
+            {/* 프로필로 이동하기 */}
+            <button onClick={handleGoToProfile}>프로필로 이동</button>
+          </div>
+          <div>
+            {/* 게시판으로 이동 */}
+            <button onClick={handleGoToPost}>게시판으로 이동</button>
+          </div>
+        </>
       ) : (
         <div>
           <h2>로그인</h2>
