@@ -7,6 +7,8 @@ import SignUp from "./pages/auth/SignUp";
 import UserProfile from "./pages/user/UserProfile";
 import PostList from "./pages/post/PostList";
 import PostCreate from "./pages/post/PostCeate";
+import PostDetail from "./pages/post/PostDetail";
+import PostUpdate from "./pages/post/PostUpdate";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -30,7 +32,8 @@ function App() {
       />
       <Route path="/post" element={<PostList />} />
       <Route path="/post/create" element={<PostCreate />} />
-      {/* 다른 경로들 추가 예정 */}
+      <Route path="/post/:id" element={<PostDetail />} />
+      <Route path="/post/:id/update" element={<PostUpdate />} />
     </Routes>
   );
 }

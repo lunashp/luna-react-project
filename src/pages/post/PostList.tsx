@@ -10,6 +10,8 @@ const PostList = () => {
   const navigate = useNavigate();
   const currentUser = firebaseAuth.currentUser; // 현재 로그인한 사용자
 
+  // todo: useSelector 로 loading 상태 추가
+
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
