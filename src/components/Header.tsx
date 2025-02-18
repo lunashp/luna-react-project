@@ -3,10 +3,27 @@ import { useAppDispatch, useAppSelector } from "../stores/hooks/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../config/FirebaseConfig";
 import { logout } from "../features/auth/authSlice";
+import { styled } from "@mui/material";
+import { AppBar, IconButton, Toolbar } from "@mui/material";
+import { themeColors } from "../theme/Theme";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { AccountCircle } from "@mui/icons-material";
+
+// 헤더 스타일 정의
+const StyledAppBar = styled(AppBar)({
+  backgroundColor: themeColors.primary,
+  boxShadow: "none",
+});
+
+const StyledToolbar = styled(Toolbar)({
+  display: "flex",
+  justifyContent: "space-between",
+  padding: "0 16px",
+});
 
 /**
  * Header Component
- * todo: 회원가입, 로그인(로그아웃), 프로필 보기, 게시판으로 이동 버튼 추가
+ * todo: 유저가 로그인 한 상태에서 로그인 페이지에 접근하지 못하도록 막기
  *
  */
 const Header = () => {
@@ -34,16 +51,25 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <StyledAppBar position="static">
       {user ? (
-        <div>
-          <button onClick={handleLogout}>로그아웃</button>
-          <button onClick={handleGoToProfile}>프로필 보기</button>
-        </div>
+        <StyledToolbar>
+          <IconButton onClick={handleLogout}>
+            <LogoutOutlinedIcon
+              style={{ color: themeColors.secondary, fontSize: "2rem" }}
+            />
+          </IconButton>
+
+          <IconButton onClick={handleGoToProfile}>
+            <AccountCircle
+              style={{ color: themeColors.secondary, fontSize: "2rem" }}
+            />
+          </IconButton>
+        </StyledToolbar>
       ) : (
-        ""
+        <StyledToolbar />
       )}
-    </header>
+    </StyledAppBar>
   );
 };
 export default Header;
