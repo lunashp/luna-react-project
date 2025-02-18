@@ -16,6 +16,7 @@ interface Post {
   authorId?: string; // 작성자 UID
   // authorEmail: string; // 작성자 이메일
   authorDisplayName?: string; // 작성자 닉네임
+  date?: string; // 작성일
 }
 
 interface PostsState {
@@ -46,6 +47,7 @@ export const addPost = createAsyncThunk(
       ...post,
       authorId: user.uid,
       authorDisplayName: user.displayName || "익명",
+      date: new Date().toISOString(),
     };
 
     const docRef = await addDoc(collection(db, "posts"), newPost);

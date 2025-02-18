@@ -18,14 +18,25 @@ const PostList = () => {
     <div>
       <h1>게시판</h1>
       <button onClick={() => navigate("/post/create")}>새 게시글 작성</button>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <h3 onClick={() => navigate(`/post/${post.id}`)}>{post.title}</h3>
-            <p>작성자: {post.authorDisplayName}</p>
-          </li>
-        ))}
-      </ul>
+      {posts.map((post) => (
+        <div
+          key={post.id}
+          style={{
+            border: "1px solid gray",
+            padding: "10px",
+            margin: "10px 0",
+          }}
+        >
+          <h3
+            onClick={() => navigate(`/post/${post.id}`)}
+            style={{ cursor: "pointer" }}
+          >
+            {post.title}
+          </h3>
+          <p>{post.content}</p>
+          <p>작성일: {new Date(post.date!).toLocaleString()}</p>{" "}
+        </div>
+      ))}
     </div>
   );
 };
