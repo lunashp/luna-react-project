@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { firebaseAuth } from "../../config/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../stores/hooks/storeHooks";
 import { login } from "../../features/auth/authSlice";
+import AuthForm from "./AuthForm";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (email: string, password: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         firebaseAuth,
         email,
         password
       );
+
       const user = userCredential.user;
 
       dispatch(
@@ -26,7 +26,9 @@ const SignUp = () => {
           email: user?.email!,
         })
       );
+
       console.log("회원가입 성공", user);
+      alert("회원가입 성공");
       navigate(`/post`);
     } catch (error) {
       console.log("회원가입 오류", error);
@@ -34,22 +36,12 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <h2>회원가입</h2>
-      <input
-        type="email"
-        placeholder="이메일 입력"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="비밀번호 입력"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleSignUp}>회원가입</button>
-    </div>
+    <AuthForm
+      onSubmit={handleSignUp}
+      buttonText="회원가입"
+      goToAnother={() => navigate("/login")}
+      anotherText="로그인"
+    />
   );
 };
 
