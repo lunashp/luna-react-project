@@ -24,6 +24,7 @@ const UserProfile = () => {
       await firebaseAuth.signOut();
 
       dispatch(logout());
+      // localStorage.removeItem("profileImage");
       console.log("로그아웃 성공");
     } catch (error) {
       console.log("로그아웃 실패", error);
@@ -78,7 +79,8 @@ const UserProfile = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result as string;
-        localStorage.setItem("profileImage", base64String);
+        // localStorage.setItem("profileImage", base64String);
+        localStorage.setItem(`${user?.uid}_profileImage`, base64String);
         setPhoto(base64String);
       };
 
@@ -88,7 +90,8 @@ const UserProfile = () => {
 
   // 페이지 로드 시 LocalStorage에서 이미지 불러오기
   useEffect(() => {
-    const storedImage = localStorage.getItem("profileImage");
+    // const storedImage = localStorage.getItem("profileImage");
+    const storedImage = localStorage.getItem(`${user?.uid}_profileImage`);
     if (storedImage) {
       setPhoto(storedImage);
     }
@@ -96,7 +99,7 @@ const UserProfile = () => {
 
   // 이미지 삭제 함수
   const handleRemovePhoto = () => {
-    localStorage.removeItem("profileImage");
+    localStorage.removeItem(`${user?.uid}_profileImage`);
     setPhoto(null);
   };
 
