@@ -6,6 +6,22 @@ import {
   logout,
   updateProfileAction,
 } from "../../stores/features/auth/authSlice";
+import { Grid2, Input, styled, TextField, Typography } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
+import { themeColors } from "../../theme/Theme";
+
+const Box = styled("div")`
+  margin-top: 100px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  /* justify-content: space-between; */
+`;
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
@@ -107,22 +123,47 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>Email: {user?.email}</p>
-      <p>Nickname: {user?.displayName}</p>
-      <p>
-        <input
-          type="text"
-          placeholder="닉네임 입력"
-          value={displayName}
-          onChange={(e) => setNewDisplayName(e.target.value)}
-        />
-        <button onClick={handleUpdateProfile}>이름 변경</button>
-      </p>
-      <p>
-        <button onClick={handleLogout}>로그아웃</button>
-      </p>
+    <Box>
+      <AccountCircle
+        style={{ color: themeColors.primary, fontSize: "5rem" }}
+        sx={{ mb: 3 }}
+      />
+      {/* <h1>Profile</h1> */}
+      {/* <Grid2 container justifyContent="space-between" > */}
+      <Grid2 container sx={{ width: "70%" }}>
+        <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
+          email
+        </Typography>
+        <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
+          {user?.email}
+        </Typography>
+      </Grid2>
+      {user?.displayName ? (
+        <Grid2 container sx={{ width: "70%" }}>
+          {/* <Typography color="textDisabled" sx={{ minWidth: "80px" }}> */}
+          <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
+            nickname
+          </Typography>
+          <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
+            {user?.displayName}
+          </Typography>
+          {/* <TextField
+            defaultValue={user?.displayName}
+            value={displayName}
+            onChange={(e) => setNewDisplayName(e.target.value)}
+          /> */}
+        </Grid2>
+      ) : (
+        <p>
+          <input
+            type="text"
+            placeholder="닉네임 입력"
+            value={displayName}
+            onChange={(e) => setNewDisplayName(e.target.value)}
+          />
+          <button onClick={handleUpdateProfile}>이름 변경</button>
+        </p>
+      )}
       <p>
         <input
           type="file"
@@ -139,7 +180,10 @@ const UserProfile = () => {
         <p>이미지가 선택되지 않았습니다.</p>
       )}
       {photo && <button onClick={handleRemovePhoto}>사진 삭제</button>}
-    </div>
+      <p>
+        <button onClick={handleLogout}>로그아웃</button>
+      </p>
+    </Box>
   );
 };
 
