@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useAppSelector } from "./stores/hooks/storeHooks";
 // import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
@@ -9,6 +8,7 @@ import PostList from "./pages/post/PostList";
 import PostDetail from "./pages/post/PostDetail";
 import PostUpdate from "./pages/post/PostUpdate";
 import PostCreate from "./pages/post/PostCreate";
+import { useAppSelector } from "./stores/hooks/storeHooks";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);

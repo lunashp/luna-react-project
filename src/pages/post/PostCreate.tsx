@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../stores/hooks/storeHooks";
-import { addPost } from "../../features/posts/postSlice";
+import { addPost } from "../../stores/features/posts/postSlice";
 import styled from "styled-components";
 import { TextField, Typography, Button, Grid2 } from "@mui/material";
 import useFile from "../../hooks/useFile";

@@ -2,12 +2,12 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../stores/hooks/storeHooks";
 import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../config/FirebaseConfig";
-import { logout } from "../features/auth/authSlice";
 import { styled } from "@mui/material";
 import { AppBar, IconButton, Toolbar } from "@mui/material";
 import { themeColors } from "../theme/Theme";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { AccountCircle } from "@mui/icons-material";
+import { logout } from "../stores/features/auth/authSlice";
 
 // 헤더 스타일 정의
 const StyledAppBar = styled(AppBar)({

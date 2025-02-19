@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
-import { deletePost, fetchPosts } from "../../features/posts/postSlice";
+import { deletePost, fetchPosts } from "../../stores/features/posts/postSlice";
 
 const PostList = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +13,11 @@ const PostList = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
+
+  // 날짜 내림차순 정렬 (최신 글이 먼저)
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime()
+  );
 
   // 게시글 삭제 함수
   // 임시
@@ -31,7 +36,7 @@ const PostList = () => {
     <div>
       <h1>게시판</h1>
       <button onClick={() => navigate("/post/create")}>새 게시글 작성</button>
-      {posts.map((post) => (
+      {sortedPosts.map((post) => (
         <div
           key={post.id}
           style={{

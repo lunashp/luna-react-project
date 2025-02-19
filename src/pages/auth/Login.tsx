@@ -3,7 +3,7 @@ import { firebaseAuth, provider } from "../../config/FirebaseConfig";
 import { signInWithEmailAndPassword, signInWithPopup } from "@firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../stores/hooks/storeHooks";
-import { login } from "../../features/auth/authSlice";
+import { login } from "../../stores/features/auth/authSlice";
 
 import AuthForm from "./AuthForm";
 

@@ -1,4 +1,4 @@
-import { firebaseAuth } from "../../config/FirebaseConfig";
+import { firebaseAuth } from "../../../config/FirebaseConfig";
 import { login } from "./authSlice";
 
 export const fetchUserFromFirebase = async (dispatch: any) => {

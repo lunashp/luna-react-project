@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
-import { updatePost } from "../../features/posts/postSlice";
+import { updatePost } from "../../stores/features/posts/postSlice";
 import { Grid2, Typography } from "@mui/material";
 import useFile from "../../hooks/useFile";
 

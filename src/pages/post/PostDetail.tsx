@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
-import { deletePost } from "../../features/posts/postSlice";
+import { deletePost } from "../../stores/features/posts/postSlice";
 import useFile from "../../hooks/useFile";
 
 const PostDetail = () => {

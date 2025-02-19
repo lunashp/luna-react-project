@@ -7,7 +7,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { db, firebaseAuth } from "../../config/FirebaseConfig";
+import { db, firebaseAuth } from "../../../config/FirebaseConfig";
 
 // type Post =  {
 //   id: string;
