@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
-import { fetchPosts } from "../../features/posts/postSlice";
+import { deletePost, fetchPosts } from "../../features/posts/postSlice";
 
 const PostList = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +13,19 @@ const PostList = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
+
+  // 게시글 삭제 함수
+  // 임시
+  const handleDeletePost = async (postId: string) => {
+    try {
+      await dispatch(deletePost(postId)).unwrap();
+      alert("게시글이 삭제되었습니다.");
+      navigate("/post");
+    } catch (error) {
+      alert("게시글 삭제에 실패했습니다.");
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -35,6 +48,7 @@ const PostList = () => {
           </h3>
           <p>{post.content}</p>
           <p>작성일: {new Date(post.date!).toLocaleString()}</p>{" "}
+          <button onClick={() => handleDeletePost(post.id!)}>삭제</button>
         </div>
       ))}
     </div>

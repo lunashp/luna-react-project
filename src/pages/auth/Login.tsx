@@ -7,6 +7,7 @@ import { login } from "../../features/auth/authSlice";
 
 import AuthForm from "./AuthForm";
 
+// todo: 로그인 한 사용자는 해당 페이지에 접근 하지 못하도록 막아야 함
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

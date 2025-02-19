@@ -18,12 +18,11 @@ const initialState: AuthState = {
 /**
  * Auth Slice 생성
  */
-// todo: register, login action 분리 고민
+// todo: login 이 회원가입, 로그인, 정보 불러오기 등 다양한 기능을 포함하고 있음 -> 분리 고민
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // todo: login 이 회원가입, 로그인, 정보 불러오기 등 다양한 기능을 포함하고 있음 -> 분리 고민
     login: (
       state,
       action: PayloadAction<{

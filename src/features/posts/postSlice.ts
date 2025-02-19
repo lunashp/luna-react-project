@@ -9,6 +9,19 @@ import {
 } from "firebase/firestore";
 import { db, firebaseAuth } from "../../config/FirebaseConfig";
 
+// type Post =  {
+//   id: string;
+//   title: string;
+//   content: string;
+//   authorId?: string; // 작성자 UID
+//   // authorEmail: string; // 작성자 이메일
+//   authorDisplayName?: string; // 작성자 닉네임
+//   date?: string; // 작성일
+//   file?: string | null
+//   fileName?: string | null
+// }
+
+//todo: post, file 데이터 분리
 interface Post {
   id: string;
   title: string;
@@ -17,6 +30,8 @@ interface Post {
   // authorEmail: string; // 작성자 이메일
   authorDisplayName?: string; // 작성자 닉네임
   date?: string; // 작성일
+  file?: string | null;
+  fileName?: string | null;
 }
 
 interface PostsState {
@@ -51,6 +66,8 @@ export const addPost = createAsyncThunk(
     };
 
     const docRef = await addDoc(collection(db, "posts"), newPost);
+
+    // const uploadFIleName
     return { id: docRef.id, ...newPost };
   }
 );
