@@ -15,7 +15,23 @@
 ## 📂 폴더 구조
 
 ```plaintext
-(추가예정)
+📦 프로젝트 루트
+├── 📂 src
+│   ├── 📂 components          # 공통 UI 컴포넌트
+│   ├── 📂 config
+│   │   ├── FirebaseConfig.ts  # Firebase 설정 파일
+│   ├── 📂 hooks               # Custom Hook 폴더
+│   ├── 📂 pages               # 페이지 컴포넌트
+│   ├── 📂 stores              # Redux Store 설정
+│   │   ├── 📂 features        # Redux Slice
+│   ├── 📂 theme               # 테마 관련 폴더
+│   ├── App.tsx                # 라우팅 설정
+│   ├── index.tsx              # React 엔트리 포인트
+├── .gitignore
+├── package.json
+├── README.md
+├── tsconfig.json
+├── yarn.lock
 ```
 
 ## 💁🏻‍♀️ 프로젝트 실행 가이드
