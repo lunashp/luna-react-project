@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
 import { updatePost } from "../../features/posts/postSlice";
+import { Grid2, Typography } from "@mui/material";
+import useFile from "../../hooks/useFile";
 
 const PostEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  // 전달된 state에서 fileName, storedFile 받기
+  const { fileName, storedFile } = location.state || {};
+
+  const { handleFileChange, handleDownloadFile, file, fileToBase64 } =
+    useFile();
 
   const post = useAppSelector((state) =>
     state.posts.posts.find((post) => post.id === id)
@@ -24,11 +32,21 @@ const PostEdit = () => {
   }, [post]);
 
   // 게시글 수정 처리 함수
-  const handleUpdate = async () => {
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!id) return alert("게시글 ID가 없습니다.");
     if (!title.trim() || !content.trim()) return alert("내용을 입력하세요.");
 
     try {
+      if (file) {
+        const base64File = await fileToBase64(file);
+        const storedFileName = `${id}_${file.name}`; // postId_파일이름 형식
+
+        localStorage.setItem(storedFileName, base64File);
+        console.log(`파일이 저장되었습니다: ${storedFileName}`);
+      }
+
       await dispatch(updatePost({ id, title, content })).unwrap();
       alert("게시글이 수정되었습니다.");
       navigate(`/post/${id}`);
@@ -38,23 +56,44 @@ const PostEdit = () => {
     }
   };
 
+  //todo: 첨부 파일이 있으면 보이게끔, 파일 업로드 가능하게끔
   return (
-    <div>
-      <h1>게시글 수정</h1>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목"
-      />
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="내용"
-      />
-      <button onClick={handleUpdate}>수정 완료</button>
-      <button onClick={() => navigate(`/post/${id}`)}>취소</button>
-    </div>
+    <form onSubmit={handleUpdate}>
+      <div>
+        <h1>게시글 수정</h1>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="제목"
+        />
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="내용"
+        />
+        {storedFile ? (
+          <>
+            <div>fileName: {fileName}</div>
+            <button onClick={() => handleDownloadFile(storedFile, fileName)}>
+              파일 다운로드
+            </button>
+          </>
+        ) : (
+          <>
+            <Grid2 container gap={2} alignItems="center">
+              <Typography color="textSecondary">파일 첨부</Typography>
+              <input type="file" onChange={handleFileChange} />
+              {fileName && (
+                <Typography variant="body2">📎 {fileName}</Typography>
+              )}
+            </Grid2>
+          </>
+        )}
+        <button type="submit">수정 완료</button>
+        <button onClick={() => navigate(`/post/${id}`)}>취소</button>
+      </div>
+    </form>
   );
 };
 
