@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../stores/hooks/storeHooks";
 import { addPost } from "../../features/posts/postSlice";
 import styled from "styled-components";
 import { TextField, Typography, Button, Grid2 } from "@mui/material";
+import useFile from "../../hooks/useFile";
 
 const Box = styled("div")`
   margin-top: 120px;
@@ -17,32 +18,14 @@ const Box = styled("div")`
   margin-right: auto;
 `;
 
+//todo: 추후에 다중 파일 업로드 기능 추가
 const PostCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [file, setFile] = useState<File | null>(null); // 선택된 파일 저장
-  const [fileName, setFileName] = useState(""); // 파일 이름 상태
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // 파일을 Base64로 변환하는 함수
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  // 파일 선택 핸들러
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile); // 파일 상태 저장
-      setFileName(selectedFile.name); // 파일명 상태 업데이트
-    }
-  };
+  const { file, fileName, handleFileChange, fileToBase64 } = useFile();
 
   // 게시물 생성 핸들러
   const handleCreate = async (e: React.FormEvent) => {
@@ -60,14 +43,12 @@ const PostCreate = () => {
         const storedFileName = `${postId}_${file.name}`; // postId_파일이름 형식
 
         localStorage.setItem(storedFileName, base64File);
-        alert(`파일이 저장되었습니다: ${storedFileName}`);
+        console.log(`파일이 저장되었습니다: ${storedFileName}`);
       }
 
       alert("게시물이 생성되었습니다.");
       setTitle("");
       setContent("");
-      setFile(null);
-      setFileName("");
       navigate("/post"); // 게시글 생성 후 목록으로 이동
     } catch (error) {
       alert("게시물 생성에 실패했습니다.");

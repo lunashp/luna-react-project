@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks/storeHooks";
 import { deletePost } from "../../features/posts/postSlice";
+import useFile from "../../hooks/useFile";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -12,6 +13,9 @@ const PostDetail = () => {
   );
 
   const userId = useAppSelector((state) => state.auth.user?.uid);
+
+  const { handleDownloadFile } = useFile();
+
   console.log("postID", posts?.authorId);
   console.log("userId", userId);
 
@@ -25,7 +29,10 @@ const PostDetail = () => {
   };
 
   const handleGoToUpdate = () => {
-    navigate(`/post/${id}/update`);
+    // 수정 화면으로 이동 시 fileName과 storedFile을 state로 전달
+    navigate(`/post/${id}/update`, {
+      state: { fileName, storedFile }, // fileName과 storedFile을 state로 전달
+    });
   };
 
   // localStorage에서 posts.id로 시작하는 키를 찾기
@@ -38,12 +45,14 @@ const PostDetail = () => {
     return null;
   };
 
-  const storedFileKey = findFileInLocalStorage(); // posts.id로 저장된 파일 키 찾기
+  // posts.id로 저장된 파일 키 찾기
+  const storedFileKey = findFileInLocalStorage();
 
-  const fileName = storedFileKey ? storedFileKey.split("_")[1] : ""; // 파일 이름 추출 (id_fileName에서 fileName만 추출)
-  console.log("fileName", fileName);
+  // 파일 이름 추출 (id_fileName에서 fileName만 추출)
+  const fileName = storedFileKey ? storedFileKey.split("_")[1] : "";
 
-  const storedFile = storedFileKey ? localStorage.getItem(storedFileKey) : null; // 해당 키에 해당하는 파일 데이터 가져오기
+  // 해당 키에 해당하는 파일 데이터 가져오기
+  const storedFile = storedFileKey ? localStorage.getItem(storedFileKey) : null;
 
   // 게시글 삭제 함수
   const handleDeletePost = async (postId: string) => {
@@ -57,36 +66,6 @@ const PostDetail = () => {
     }
   };
 
-  const handleDownloadFile = () => {
-    // localStorage에 파일이 저장된 경우
-    if (storedFile) {
-      // Base64로 저장된 파일을 Blob 형태로 변환
-      const byteCharacters = atob(storedFile.split(",")[1]);
-      const byteArrays = [];
-
-      for (let offset = 0; offset < byteCharacters.length; offset++) {
-        const byte = byteCharacters.charCodeAt(offset);
-        byteArrays.push(byte);
-      }
-
-      const byteArray = new Uint8Array(byteArrays);
-      const fileBlob = new Blob([byteArray], {
-        type: "application/octet-stream",
-      });
-
-      // Blob을 다운로드할 수 있는 URL로 변환
-      const url = window.URL.createObjectURL(fileBlob);
-      const a = document.createElement("a");
-      a.href = url;
-      // a.download = `${posts?.id}_file`; // 다운로드 시 파일명 설정
-      a.download = `${fileName}`; // 다운로드 시 파일명 설정
-      a.click();
-      window.URL.revokeObjectURL(url); // URL 해제
-    } else {
-      alert("파일이 없습니다.");
-    }
-  };
-
   return (
     <>
       <div>PostDetail</div>
@@ -96,7 +75,9 @@ const PostDetail = () => {
       {storedFile && (
         <>
           <div>fileName: {fileName}</div>
-          <button onClick={handleDownloadFile}>파일 다운로드</button>
+          <button onClick={() => handleDownloadFile(storedFile, fileName)}>
+            파일 다운로드
+          </button>
         </>
       )}
       <button onClick={handleGoToPostList}>게시글 목록으로 이동</button>
