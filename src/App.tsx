@@ -9,6 +9,7 @@ import PostDetail from "./pages/post/PostDetail";
 import PostUpdate from "./pages/post/PostUpdate";
 import PostCreate from "./pages/post/PostCreate";
 import { useAppSelector } from "./stores/hooks/storeHooks";
+import Test from "./pages/test";
 
 function App() {
   const user = useAppSelector((state) => state.auth.user);
@@ -50,6 +51,7 @@ function App() {
         path="/post/:id/update"
         element={user ? <PostUpdate /> : <Navigate to="/login" />}
       />
+      <Route path="/test" element={<Test />} />
     </Routes>
   );
 }
