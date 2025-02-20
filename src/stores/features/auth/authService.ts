@@ -16,8 +16,13 @@
 //   }
 // };
 
-import { signInWithEmailAndPassword, signOut, User } from "firebase/auth";
-import { firebaseAuth } from "../../../config/FirebaseConfig";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  User,
+} from "firebase/auth";
+import { firebaseAuth, provider } from "../../../config/FirebaseConfig";
 
 export const login = async (
   email: string,
@@ -32,6 +37,33 @@ export const login = async (
     return userCredential.user;
   } catch (error) {
     throw error;
+  }
+};
+
+// export const googleLogin = async () => {
+//   try {
+//     const userCredential = await signInWithPopup(firebaseAuth, provider);
+//     const user = userCredential.user;
+
+//     console.log("구글 로그인 성공", user);
+//     return user; // 로그인한 사용자 정보 반환
+
+//     // dispatch(login({ uid: user?.uid, email: user?.email! }));
+//   } catch (error) {
+//     console.log("구글 로그인 실패", error);
+//   }
+// };
+
+export const googleLogin = async () => {
+  try {
+    const userCredential = await signInWithPopup(firebaseAuth, provider);
+    const user = userCredential.user;
+
+    console.log("구글 로그인 성공", user);
+    return user; // 로그인한 사용자 정보 반환
+  } catch (error) {
+    console.log("구글 로그인 실패", error);
+    throw new Error("구글 로그인에 실패했습니다."); // 에러 발생 시 에러 메시지 반환
   }
 };
 
