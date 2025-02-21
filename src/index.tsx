@@ -1,23 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { store } from "./stores/store";
 import Header from "./components/Header";
-// import reportWebVitals from "./reportWebVitals";
-// import { firebaseAuth } from "./config/FirebaseConfig";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    <Router>
-      <Header />
-      <App />
-    </Router>
-  </Provider>
+  <Router>
+    <Header />
+    <App />
+  </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function
