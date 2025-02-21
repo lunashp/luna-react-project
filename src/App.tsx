@@ -5,7 +5,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import UserProfile from "./pages/user/UserProfile";
 import PostList from "./pages/post/PostList";
-// import PostDetail from "./pages/post/PostDetail";
+import PostDetail from "./pages/post/PostDetail";
 // import PostUpdate from "./pages/post/PostUpdate";
 import PostCreate from "./pages/post/PostCreate";
 // import { useAppSelector } from "./stores/hooks/storeHooks";
@@ -47,11 +47,11 @@ const App = observer(() => {
         path="/post/create"
         element={isUser ? <PostCreate /> : <Navigate to="/login" />}
       />
-      {/* <Route
+      <Route
         path="/post/:id"
         element={isUser ? <PostDetail /> : <Navigate to="/login" />}
       />
-      <Route
+      {/* <Route
         path="/post/:id/update"
         element={isUser ? <PostUpdate /> : <Navigate to="/login" />}
       /> */}
