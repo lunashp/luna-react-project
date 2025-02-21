@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { firebaseAuth } from "../../config/FirebaseConfig";
-import { updateProfile } from "@firebase/auth";
-import { useAppDispatch } from "../../stores/hooks/storeHooks";
-import {
-  logout,
-  updateProfileAction,
-} from "../../stores/features/auth/authSlice";
-import { Grid2, Input, styled, TextField, Typography } from "@mui/material";
+import { Grid2, styled, TextField, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { themeColors } from "../../theme/Theme";
+import authStore from "../../stores/features/auth/authStore";
+import userStore from "../../stores/features/user/userStore";
+import { observer } from "mobx-react-lite";
 
 const Box = styled("div")`
   margin-top: 100px;
@@ -23,59 +19,28 @@ const Box = styled("div")`
   /* justify-content: space-between; */
 `;
 
-const UserProfile = () => {
-  const dispatch = useAppDispatch();
+const UserProfile = observer(() => {
+  // const dispatch = useAppDispatch();
   // redux 사용 시
-  // const user = useAppSelector((state) => state.auth.user);
-  const [displayName, setNewDisplayName] = useState("");
+  const [newDisplayName, setNewDisplayName] = useState("");
   const [photo, setPhoto] = useState<string | null>(null);
+  const user = userStore.user;
 
-  const user = firebaseAuth.currentUser;
-
-  // 앱 실행 시 로그인한 사용자 정보 가져오기 (redux 사용 시)
-  // useEffect(() => {
-  //   fetchUserFromFirebase(dispatch);
-  // }, [dispatch]);
+  useEffect(() => {
+    userStore.fetchCurrentUser();
+  }, []);
 
   // 로그아웃 함수
   const handleLogout = async () => {
-    try {
-      await firebaseAuth.signOut();
-
-      dispatch(logout());
-      // localStorage.removeItem("profileImage");
-      console.log("로그아웃 성공");
-    } catch (error) {
-      console.log("로그아웃 실패", error);
-    }
+    await authStore.logout();
   };
 
   // 프로필 업데이트 함수
   // todo: 업데이트 이후 로직 고민 필요
   // todo: alert 등으로 사용자에게 알림 필요
   const handleUpdateProfile = async () => {
-    if (!user) return;
-
-    try {
-      await updateProfile(firebaseAuth.currentUser!, {
-        displayName: displayName,
-      });
-      dispatch(updateProfileAction({ displayName: displayName }));
-      console.log("프로필 업데이트 성공", user);
-    } catch (error) {
-      console.log("프로필 업데이트 실패", error);
-    }
+    await userStore.updateDisplayName(newDisplayName);
   };
-
-  // 파일 선택 시 호출 (브라우저 내에서 관리)
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     const file = e.target.files[0];
-  //     const localUrl = URL.createObjectURL(file);
-  //     console.log("파일 선택됨:", localUrl);
-  //     setPhoto(localUrl);
-  //   }
-  // };
 
   // local storage에 이미지 저장
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,32 +103,23 @@ const UserProfile = () => {
           {user?.email}
         </Typography>
       </Grid2>
-      {user?.displayName ? (
-        <Grid2 container sx={{ width: "70%" }}>
-          {/* <Typography color="textDisabled" sx={{ minWidth: "80px" }}> */}
-          <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
-            nickname
-          </Typography>
-          <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
-            {user?.displayName}
-          </Typography>
-          {/* <TextField
-            defaultValue={user?.displayName}
-            value={displayName}
-            onChange={(e) => setNewDisplayName(e.target.value)}
-          /> */}
-        </Grid2>
-      ) : (
-        <p>
-          <input
-            type="text"
-            placeholder="닉네임 입력"
-            value={displayName}
-            onChange={(e) => setNewDisplayName(e.target.value)}
-          />
-          <button onClick={handleUpdateProfile}>이름 변경</button>
-        </p>
-      )}
+
+      <Grid2 container sx={{ width: "70%" }}>
+        {/* <Typography color="textDisabled" sx={{ minWidth: "80px" }}> */}
+        <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
+          nickname
+        </Typography>
+        <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
+          {user?.displayName}
+        </Typography>
+        <TextField
+          defaultValue={user?.displayName}
+          value={newDisplayName}
+          onChange={(e) => setNewDisplayName(e.target.value)}
+        />
+        <button onClick={handleUpdateProfile}>이름 변경</button>
+      </Grid2>
+
       <p>
         <input
           type="file"
@@ -185,6 +141,35 @@ const UserProfile = () => {
       </p>
     </Box>
   );
-};
+});
 
 export default UserProfile;
+
+// {/*
+//       {user?.displayName ? (
+//         <Grid2 container sx={{ width: "70%" }}>
+//           {/* <Typography color="textDisabled" sx={{ minWidth: "80px" }}> */}
+//           <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
+//             nickname
+//           </Typography>
+//           <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
+//             {user?.displayName}
+//           </Typography>
+//           <TextField
+//             defaultValue={user?.displayName}
+//             value={displayName}
+//             onChange={(e) => setNewDisplayName(e.target.value)}
+//           />
+//         </Grid2>
+//       ) : (
+//         <p>
+//           <input
+//             type="text"
+//             placeholder="닉네임 입력"
+//             value={newDisplayName}
+//             onChange={(e) => setNewDisplayName(e.target.value)}
+//           />
+//           <button onClick={handleUpdateProfile}>이름 변경</button>
+//         </p>
+//       )}
+//        */}
