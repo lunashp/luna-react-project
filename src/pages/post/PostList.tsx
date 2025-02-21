@@ -19,7 +19,7 @@ const PostList = observer(() => {
   // 게시글 삭제 함수
   // 임시
   const handleDeletePost = async (postId: string) => {
-    postStore.deletePost(postId);
+    await postStore.deletePost(postId);
     navigate("/post");
   };
 

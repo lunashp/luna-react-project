@@ -45,7 +45,7 @@ const PostDetail = () => {
 
   // 게시글 삭제 함수
   const handleDeletePost = async (postId: string) => {
-    postStore.deletePost(postId);
+    await postStore.deletePost(postId);
     navigate("/post");
   };
 
