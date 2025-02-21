@@ -45,6 +45,8 @@ class PostStore {
       runInAction(() => {
         this.posts.push(newPost);
       });
+
+      return newPost;
     } catch (error: any) {
       runInAction(() => {
         this.error = error.message;
