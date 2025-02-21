@@ -1,17 +1,11 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import postService from "./postService";
-
-export interface Post {
-  id: string;
-  title: string;
-  content: string;
-  authorId?: string; // 작성자 UID
-  // authorEmail: string; // 작성자 이메일
-  authorDisplayName?: string; // 작성자 닉네임
-  date?: string; // 작성일
-  file?: string | null;
-  fileName?: string | null;
-}
+import {
+  addPost,
+  deletePost,
+  fetchPosts,
+  Post,
+  updatePost,
+} from "./postService";
 
 class PostStore {
   posts: Post[] = [];
@@ -27,7 +21,7 @@ class PostStore {
     this.loading = true;
     this.error = null;
     try {
-      const posts = await postService.fetchPosts(); // 서비스 호출
+      const posts = await fetchPosts(); // 서비스 호출
       runInAction(() => {
         this.posts = posts;
       });
@@ -47,7 +41,7 @@ class PostStore {
     this.loading = true;
     this.error = null;
     try {
-      const newPost = await postService.addPost(post); // 서비스 호출
+      const newPost = await addPost(post); // 서비스 호출
       runInAction(() => {
         this.posts.push(newPost);
       });
@@ -67,7 +61,7 @@ class PostStore {
     this.loading = true;
     this.error = null;
     try {
-      const updated = await postService.updatePost(updatedPost); // 서비스 호출
+      const updated = await updatePost(updatedPost); // 서비스 호출
       runInAction(() => {
         const index = this.posts.findIndex((post) => post.id === updated.id);
         if (index !== -1) {
@@ -90,7 +84,7 @@ class PostStore {
     this.loading = true;
     this.error = null;
     try {
-      await postService.deletePost(postId); // 서비스 호출
+      await deletePost(postId); // 서비스 호출
       runInAction(() => {
         this.posts = this.posts.filter((post) => post.id !== postId);
       });
