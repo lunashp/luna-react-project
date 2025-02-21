@@ -2,19 +2,16 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import postStore from "../../stores/features/posts/postStore";
 import { observer } from "mobx-react-lite";
+import { Pagination } from "@mui/material";
+// import Pagination from "./Pagination";
 
 const PostList = observer(() => {
-  const posts = postStore.posts;
   const navigate = useNavigate();
+  const { paginatedPosts, currentPage, totalPages, setPage } = postStore;
 
   useEffect(() => {
     postStore.fetchPosts();
   }, []);
-
-  // 날짜 내림차순 정렬 (최신 글이 먼저)
-  const sortedPosts = [...posts].sort(
-    (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime()
-  );
 
   // 게시글 삭제 함수
   // 임시
@@ -23,11 +20,15 @@ const PostList = observer(() => {
     navigate("/post");
   };
 
+  if (!postStore) {
+    return <p>게시판 데이터를 불러오는 중...</p>;
+  }
+
   return (
     <div>
       <h1>게시판</h1>
       <button onClick={() => navigate("/post/create")}>새 게시글 작성</button>
-      {sortedPosts.map((post) => (
+      {paginatedPosts.map((post) => (
         <div
           key={post.id}
           style={{
@@ -47,6 +48,16 @@ const PostList = observer(() => {
           <button onClick={() => handleDeletePost(post.id!)}>삭제</button>
         </div>
       ))}
+
+      {/* 페이지네이션*/}
+      <Pagination
+        count={totalPages} // 총 페이지 수
+        page={currentPage} // 현재 페이지
+        onChange={(_, page) => setPage(page)} // 페이지 변경 시 상태 업데이트
+        showFirstButton
+        showLastButton
+        sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+      />
     </div>
   );
 });
