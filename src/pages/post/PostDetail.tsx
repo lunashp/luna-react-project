@@ -105,7 +105,7 @@ const PostDetail = () => {
 
       <Grid2 container gap={2} alignItems="center" mb={12}>
         <Grid2 sx={{ flex: 2 }}>
-          <Typography color="textSecondary">파일 첨부</Typography>
+          <Typography color="textSecondary">첨부 파일</Typography>
         </Grid2>
         <Grid2
           sx={{ flex: 10 }}

@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import postStore from "../../stores/features/posts/postStore";
-import { Grid2, Typography } from "@mui/material";
+import { Button, Grid2, styled, TextField, Typography } from "@mui/material";
 import useFile from "../../hooks/useFile";
+import { CloudDownload } from "@mui/icons-material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { VisuallyHiddenInput } from "./PostCreate";
+import { ThemeButton } from "../../components/Button";
+
+const Box = styled("div")`
+  margin-top: 60px;
+  text-align: center;
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 const PostEdit = () => {
   const { id } = useParams();
@@ -56,42 +72,108 @@ const PostEdit = () => {
 
   //todo: 첨부 파일이 있으면 보이게끔, 파일 업로드 가능하게끔
   return (
-    <form onSubmit={handleUpdate}>
-      <div>
-        <h1>게시글 수정</h1>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목"
-        />
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="내용"
-        />
-        {storedFile ? (
-          <>
-            <div>fileName: {fileName}</div>
-            <button onClick={() => handleDownloadFile(storedFile, fileName)}>
-              파일 다운로드
-            </button>
-          </>
-        ) : (
-          <>
-            <Grid2 container gap={2} alignItems="center">
-              <Typography color="textSecondary">파일 첨부</Typography>
-              <input type="file" onChange={handleFileChange} />
-              {fileName && (
-                <Typography variant="body2">📎 {fileName}</Typography>
-              )}
-            </Grid2>
-          </>
-        )}
-        <button type="submit">수정 완료</button>
-        <button onClick={() => navigate(`/post/${id}`)}>취소</button>
-      </div>
-    </form>
+    <Box>
+      <Typography variant="h4" sx={{ mb: 6 }}>
+        게시물 수정
+      </Typography>
+      <form onSubmit={handleUpdate}>
+        <Grid2 container alignItems="center" spacing={2} mb={4}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">제목</Typography>
+          </Grid2>
+
+          <Grid2 sx={{ flex: 10 }}>
+            <TextField
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              fullWidth
+            />
+          </Grid2>
+        </Grid2>
+
+        <Grid2 container alignItems="center" spacing={2} mb={4}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">내용</Typography>
+          </Grid2>
+
+          <Grid2 sx={{ flex: 10 }}>
+            <TextField
+              type="text"
+              value={content}
+              variant="outlined"
+              onChange={(e) => setContent(e.target.value)}
+              multiline
+              rows={9}
+              fullWidth
+            />
+          </Grid2>
+        </Grid2>
+
+        <Grid2 container gap={2} alignItems="center" mb={12}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">파일 첨부</Typography>
+          </Grid2>
+          <Grid2
+            sx={{ flex: 10 }}
+            display="flex"
+            alignItems="center"
+            gap={1}
+            justifyContent={"space-between"}
+          >
+            {storedFile ? (
+              <>
+                <Typography>📎 {fileName}</Typography>
+                <Button
+                  component="label"
+                  color="success"
+                  role={undefined}
+                  variant="outlined"
+                  tabIndex={-1}
+                  startIcon={<CloudDownload />}
+                  onClick={() => handleDownloadFile(storedFile, fileName)}
+                >
+                  파일 다운로드
+                </Button>
+              </>
+            ) : (
+              <Button
+                component="label"
+                color="success"
+                role={undefined}
+                variant="outlined"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                파일 첨부
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                />
+              </Button>
+            )}
+          </Grid2>
+        </Grid2>
+
+        <Grid2
+          container
+          gap={2}
+          alignItems="center"
+          mb={12}
+          justifyContent={"space-between"}
+        >
+          <ThemeButton type="submit">수정 완료</ThemeButton>
+          <Button
+            color="warning"
+            variant="outlined"
+            onClick={() => navigate(`/post/${id}`)}
+          >
+            취소
+          </Button>
+        </Grid2>
+      </form>
+    </Box>
   );
 };
 

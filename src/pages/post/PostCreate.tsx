@@ -19,7 +19,7 @@ const Box = styled("div")`
   margin-right: auto;
 `;
 
-const VisuallyHiddenInput = styled("input")({
+export const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
   height: 1,
@@ -112,7 +112,7 @@ const PostCreate = () => {
         {/* 파일 첨부 */}
         <Grid2 container gap={2} alignItems="center" mb={12}>
           <Grid2 sx={{ flex: 2 }}>
-            <Typography color="textSecondary">파일 첨부</Typography>
+            <Typography color="textSecondary">첨부 파일</Typography>
           </Grid2>
           <Grid2 sx={{ flex: 10 }}>
             {fileName ? (
