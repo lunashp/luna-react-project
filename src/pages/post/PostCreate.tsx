@@ -4,11 +4,13 @@ import styled from "styled-components";
 import { TextField, Typography, Button, Grid2 } from "@mui/material";
 import useFile from "../../hooks/useFile";
 import postStore from "../../stores/features/posts/postStore";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { ThemeButton } from "../../components/Button";
 
 const Box = styled("div")`
-  margin-top: 120px;
+  margin-top: 60px;
   text-align: center;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   gap: 20px;
@@ -16,6 +18,18 @@ const Box = styled("div")`
   margin-left: auto;
   margin-right: auto;
 `;
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 //todo: 추후에 다중 파일 업로드 기능 추가
 const PostCreate = () => {
@@ -56,41 +70,73 @@ const PostCreate = () => {
   return (
     <Box>
       <form onSubmit={handleCreate}>
-        <Typography variant="h4">게시물 생성</Typography>
+        <Typography variant="h4" sx={{ mb: 6 }}>
+          게시물 생성
+        </Typography>
 
-        <Grid2 container gap={2} alignItems="center">
-          <Typography color="textSecondary">제목</Typography>
-          <TextField
-            type="text"
-            value={title}
-            variant="outlined"
-            onChange={(e) => setTitle(e.target.value)}
-            fullWidth
-          />
+        <Grid2 container alignItems="center" spacing={2} mb={4}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">제목</Typography>
+          </Grid2>
+
+          {/* 입력 필드 (남은 공간 차지) */}
+          <Grid2 sx={{ flex: 10 }}>
+            <TextField
+              type="text"
+              value={title}
+              variant="outlined"
+              onChange={(e) => setTitle(e.target.value)}
+              fullWidth
+            />
+          </Grid2>
         </Grid2>
 
-        <Grid2 container gap={2} alignItems="center">
-          <Typography color="textSecondary">내용</Typography>
-          <TextField
-            value={content}
-            variant="outlined"
-            multiline
-            rows={6}
-            onChange={(e) => setContent(e.target.value)}
-            fullWidth
-          />
+        <Grid2 container alignItems="center" spacing={2} mb={4}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">내용</Typography>
+          </Grid2>
+
+          <Grid2 sx={{ flex: 10 }}>
+            <TextField
+              type="text"
+              value={content}
+              variant="outlined"
+              onChange={(e) => setContent(e.target.value)}
+              multiline
+              rows={9}
+              fullWidth
+            />
+          </Grid2>
         </Grid2>
 
         {/* 파일 첨부 */}
-        <Grid2 container gap={2} alignItems="center">
-          <Typography color="textSecondary">파일 첨부</Typography>
-          <input type="file" onChange={handleFileChange} />
-          {fileName && <Typography variant="body2">📎 {fileName}</Typography>}
+        <Grid2 container gap={2} alignItems="center" mb={12}>
+          <Grid2 sx={{ flex: 2 }}>
+            <Typography color="textSecondary">파일 첨부</Typography>
+          </Grid2>
+          <Grid2 sx={{ flex: 10 }}>
+            {fileName ? (
+              `📎 ${fileName}`
+            ) : (
+              <Button
+                component="label"
+                color="success"
+                role={undefined}
+                variant="outlined"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                파일 첨부
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                />
+              </Button>
+            )}
+          </Grid2>
         </Grid2>
-
-        <Button type="submit" variant="contained" color="primary">
-          생성
-        </Button>
+        <ThemeButton type="submit">생성</ThemeButton>
       </form>
     </Box>
   );

@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import postStore from "../../stores/features/posts/postStore";
 import { observer } from "mobx-react-lite";
 import { Grid2, Pagination, styled, Typography } from "@mui/material";
-import { BoardButton, ThemeButton } from "../../components/Button";
+import { BoardButton } from "../../components/Button";
 
 const Box = styled("div")`
   margin-top: 30px;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 `;
 
 const BoardBox = styled("div")`
-  border: 1.5px solid #a67c52;
+  border: 1px solid #a67c52;
   background-color: #fffef9;
-  padding: 10px;
+  padding: 15px;
   margin: 10px 0;
   cursor: pointer;
   border-radius: 12px;
@@ -45,17 +45,13 @@ const PostList = observer(() => {
     <Box>
       <Grid2 container gap={6} justifyContent={"space-between"}>
         <Typography variant="h4">Board</Typography>
-        {/* <button onClick={() => navigate("/post/create")}>새 게시글 작성</button> */}
         <BoardButton onClick={() => navigate("/post/create")}>
           새 게시글 작성
         </BoardButton>
       </Grid2>
-      {/* <h1>게시판</h1> */}
-      {/* <button onClick={() => navigate("/post/create")}>새 게시글 작성</button> */}
       {paginatedPosts.map((post) => (
         <BoardBox key={post.id} onClick={() => navigate(`/post/${post.id}`)}>
           <Typography variant="h6">{post.title}</Typography>
-          {/* <h3>{post.title}</h3> */}
           <p>{post.content}</p>
           <p>작성일: {new Date(post.date!).toLocaleString()}</p>
           <button
