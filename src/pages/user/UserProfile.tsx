@@ -5,7 +5,6 @@ import { themeColors } from "../../theme/Theme";
 import authStore from "../../stores/features/auth/authStore";
 import userStore from "../../stores/features/user/userStore";
 import { observer } from "mobx-react-lite";
-import { ThemeButton } from "../../components/Button";
 
 const Box = styled("div")`
   margin-top: 100px;
@@ -74,13 +73,14 @@ const UserProfile = observer(() => {
   };
 
   // 페이지 로드 시 LocalStorage에서 이미지 불러오기
+  // todo: 의존성 배열 재확인 필요
   useEffect(() => {
     // const storedImage = localStorage.getItem("profileImage");
     const storedImage = localStorage.getItem(`${user?.uid}_profileImage`);
     if (storedImage) {
       setPhoto(storedImage);
     }
-  }, []);
+  }, [user?.uid]);
 
   // 이미지 삭제 함수
   const handleRemovePhoto = () => {
