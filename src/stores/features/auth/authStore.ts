@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { User } from "firebase/auth";
 import { googleLogin, login, logout, register } from "./authService";
 
