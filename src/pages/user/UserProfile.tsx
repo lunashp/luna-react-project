@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid2, styled, TextField, Typography } from "@mui/material";
+import { Button, Grid2, styled, TextField, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { themeColors } from "../../theme/Theme";
 import authStore from "../../stores/features/auth/authStore";
 import userStore from "../../stores/features/user/userStore";
 import { observer } from "mobx-react-lite";
+import { ThemeButton } from "../../components/Button";
 
 const Box = styled("div")`
   margin-top: 100px;
@@ -13,7 +14,7 @@ const Box = styled("div")`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 400px;
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
   /* justify-content: space-between; */
@@ -109,15 +110,23 @@ const UserProfile = observer(() => {
         <Typography color="textDisabled" sx={{ minWidth: "80px" }}>
           nickname
         </Typography>
-        <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
+        {/* <Typography color="textDisabled" sx={{ flexGrow: 1 }}>
           {user?.displayName}
-        </Typography>
+        </Typography> */}
+
         <TextField
-          defaultValue={user?.displayName}
-          value={newDisplayName}
+          // defaultValue={user?.displayName}
+          value={user?.displayName}
           onChange={(e) => setNewDisplayName(e.target.value)}
         />
-        <button onClick={handleUpdateProfile}>이름 변경</button>
+        <Button
+          onClick={handleUpdateProfile}
+          color="success"
+          variant="outlined"
+        >
+          이름 변경
+        </Button>
+        {/* <button onClick={handleUpdateProfile}>이름 변경</button> */}
       </Grid2>
 
       <p>
